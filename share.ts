@@ -18,10 +18,10 @@ export async function downloadImage(
     responseType: "stream",
   });
 
-  response.data.pipe(writer);
+  await response.data.pipe(writer);
 
   return new Promise((resolve, reject) => {
-    writer.on("finish", resolve);
+    writer.on("finish", () => setTimeout(resolve, 1000));
     writer.on("error", reject);
   });
 }

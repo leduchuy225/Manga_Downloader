@@ -1,6 +1,6 @@
 import axios from "axios";
 import parse from "node-html-parser";
-import { createFolder, downloadImage } from "./share";
+import { createFolder, downloadImage } from "./helpers/share";
 
 const BaseURL = "https://ww7.mangakakalot.tv";
 (async () => {
@@ -37,15 +37,15 @@ const BaseURL = "https://ww7.mangakakalot.tv";
   }
 })();
 
-async function getListChapter(path: string) {
-  return axios.get(path).then(async function (response) {
-    const root = parse(response.data);
-    const episodeArea = root.querySelector(".chapter-list");
-    const episodeList = episodeArea?.querySelectorAll("a") ?? [];
+// async function getListChapter(path: string) {
+//   return axios.get(path).then(async function (response) {
+//     const root = parse(response.data);
+//     const episodeArea = root.querySelector(".chapter-list");
+//     const episodeList = episodeArea?.querySelectorAll("a") ?? [];
 
-    return episodeList.map((e) => e.attrs["href"]).reverse();
-  });
-}
+//     return episodeList.map((e) => e.attrs["href"]).reverse();
+//   });
+// }
 
 async function getImageInChapter(path: string) {
   console.log(path);

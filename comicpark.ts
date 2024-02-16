@@ -1,6 +1,6 @@
 import Fs from "fs";
 import axios from "axios";
-import { downloadFromJson, getPath, isImage } from "./helpers/share";
+import { downloadFromJson, getPath, isImage } from "./share";
 
 const BASE_URL = "https://comicpark.org";
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import parse from "node-html-parser";
-import { createFolder, downloadImage } from "./helpers/share";
+import { createFolder, downloadImage } from "./share";
 
 const BaseURL = "https://ww7.mangakakalot.tv";
 (async () => {

@@ -2,16 +2,21 @@ import Fs from "fs";
 import Path from "path";
 import axios from "axios";
 import { RequestInit } from "node-fetch";
+import { url } from "inspector";
 // import fetch from "node-fetch";
 
 require("esm-hook");
 const fetch = require("node-fetch").default;
 
-export async function downloadImage(
-  url: string,
-  filename: string,
-  paths: string[]
-) {
+export async function downloadImage({
+  url,
+  paths,
+  filename,
+}: {
+  url: string;
+  paths: string[];
+  filename: string;
+}) {
   const filePath = getPath(filename, paths);
   const writer = Fs.createWriteStream(filePath);
 
@@ -35,7 +40,17 @@ export async function downloadImage(
 // paths: string[]
 // filename: string
 // headers: RequestInit
-export async function fetchImage({ url, filename, paths, headers }: any) {
+export async function fetchImage({
+  url,
+  paths,
+  headers,
+  filename,
+}: {
+  url: string;
+  paths: string[];
+  filename: string;
+  headers?: RequestInit;
+}) {
   const filePath = getPath(filename, paths);
   const writer = Fs.createWriteStream(filePath);
 
@@ -65,8 +80,28 @@ export function createFolder(paths: string[]) {
   }
 }
 
+export function writeMyFile({
+  paths,
+  data,
+  name,
+}: {
+  name: string;
+  data: object;
+  paths: string[];
+}) {
+  createFolder(paths);
+  Fs.writeFileSync(getPath(name, paths), JSON.stringify(data));
+}
+
+export function readMyFile({ name, paths }: { name: string; paths: string[] }) {
+  return Fs.readFileSync(getPath(name, ["resources", ...paths]), {
+    flag: "r",
+    encoding: "utf8",
+  });
+}
+
 export function isImage(url: string) {
-  return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+  return /\.(jpg|jpeg|png|webp)$/.test(url);
 }
 
 export async function downloadFromJson({
@@ -86,12 +121,24 @@ export async function downloadFromJson({
         console.error(err);
         return;
       }
+
       const images = JSON.parse(data)["images"];
       console.log(images);
+
       createFolder(["resources", ...outputPath]);
+
       for (const image of images) {
         const fileName = image.split("/")[image.split("/").length - 1];
         console.log(image);
+
+        // setTimeout(async () => {
+        //   await downloadImage({
+        //     url: image,
+        //     filename: fileName,
+        //     paths: ["resources", ...outputPath],
+        //   });
+        // }, 1000);
+
         await fetchImage({
           url: image,
           filename: fileName,

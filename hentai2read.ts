@@ -2,7 +2,7 @@ import Fs from "fs";
 import axios from "axios";
 import parse from "node-html-parser";
 import { RequestInit } from "node-fetch";
-import { createFolder, fetchImage, getPath } from "./helpers/share";
+import { createFolder, fetchImage, getPath } from "./share";
 
 (async () => {
   createFolder(["resources", "tight_encounters"]);

@@ -1,6 +1,6 @@
 import Fs from "fs";
 import Path from "path";
-import { createFolder, downloadImage } from "./helpers/share";
+import { createFolder, downloadImage } from "./share";
 
 async function downloadChapter(data: any, paths: string[]) {
   const chapterName: string = data.chap.replace(" ", "_");
